@@ -11,10 +11,8 @@ class ReqDicts(object):
         return self._dicts
 
     def line_to_dict(self, line):
-        regexp = ''        # version, defined to be anything between [ and ]
-
         m = re.findall('[a-zA-Z-]+', line)
-        v = re.findall('[0-9.]+', line)
+        v = re.findall(r"([\d.]*\d+)", line)
 
         if m:
             pkg = m
