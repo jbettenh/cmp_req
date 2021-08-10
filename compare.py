@@ -11,10 +11,10 @@ class ReqDicts(object):
         return self._dicts
 
     def line_to_dict(self, line):
-        m = re.findall('[a-zA-Z-]+', line)
+        m = re.findall(r"[a-zA-Z-]+", line)
         v = re.findall(r"([\d.]*\d+)", line)
 
-        if m:
+        if m and len(m) < 2:
             pkg = m
             vrs = v
             output = {'pkg': pkg, 'vrs': vrs}
