@@ -20,8 +20,8 @@ __pycache__/
 # Config files
 
 # File inputs
-/int.txt
-/prod.txt
+/files_2_compare/int.txt
+/files_2_compare/prod.txt
 
 
 
