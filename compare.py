@@ -5,7 +5,7 @@ class ReqDicts(object):
     def __init__(self, req_file):
         self._dicts = [self.line_to_dict(line)
                        for line in open(req_file, 'r')
-                       if line.strip() and not line.startswith('#')]
+                       if line.strip() and not line.startswith('#') and not 'modules deployed to' in line]
 
     def dicts(self, key=None):
         return list(self.iterdicts(key=key))
