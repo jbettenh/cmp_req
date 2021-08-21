@@ -4,13 +4,16 @@ from collections import defaultdict
 
 
 class ReqDicts(object):
-    def __init__(self, req_file):
-        self.servers = defaultdict(dict)
+    def __init__(self, file1, file2):
+        self.servers = defaultdict(lambda: defaultdict(list))
         self.current_server = ''
-        self.filename = os.path.basename(req_file)
-        self.line_feeder = [self.line2dict(line)
-                            for line in open(req_file, 'r')
-                            if line.strip() and not line.startswith('#')]
+        self.filename = os.path.basename(file1)
+        self.file1_feeder = [self.line2dict(line)
+                             for line in open(file1, 'r')
+                             if line.strip() and not line.startswith('#')]
+        self.file2_feeder = [self.line2dict(line)
+                             for line in open(file2, 'r')
+                             if line.strip() and not line.startswith('#')]
 
     def line2dict(self, line):
         server_name = re.search(r'''([A-Z]+[0-9]+)''', line, re.X)
@@ -21,7 +24,7 @@ class ReqDicts(object):
 
         elif module_version:
             # save the module and version
-            self.servers[self.current_server][module_version.group(1)] = module_version.group(2)
+            self.servers[self.current_server][module_version.group(1)].append(module_version.group(2))
 
     def dicts(self, key=None):
         return list(self.iterdicts(key=key))
@@ -39,15 +42,21 @@ if __name__ == '__main__':
     check_deploy_int = 'files_2_compare/int.txt'
     check_deploy_prod = 'files_2_compare/prod.txt'
 
-    ckInt = ReqDicts(check_deploy_int)
-    ckProd = ReqDicts(check_deploy_prod)
+    ckInt = ReqDicts(check_deploy_int, check_deploy_prod)
+    # ckProd = ReqDicts()
 
+    print(ckInt.servers)
+
+    """
+   
     if ckInt.dicts() == ckProd.dicts():
-        print('\nThe deployment matches!')
+        print('The deployment matches!')
     else:
-        print('\nThe deployments are different!')
+        print('The deployments are different!')
 
     print(f'{ckInt.filename:35} {ckProd.filename}')
+
+    """
 
     for server, modules in ckInt.servers.items():
         print(server)
