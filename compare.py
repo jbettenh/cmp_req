@@ -55,9 +55,4 @@ if __name__ == '__main__':
             print(f'{module:15}{version}')
 
         print()
-    """
-     for first, second in zip(ckInt.iterdicts(), ckProd.iterdicts()):
-
-        print(f'{str(first):35} {str(second)}')
-    """
 
