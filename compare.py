@@ -8,6 +8,9 @@ class ReqDicts(object):
         self.servers = defaultdict(dict)
         self.current_server = ''
         self.filename = os.path.basename(req_file)
+        self.line_feeder = [self.line2dict(line)
+                            for line in open(req_file, 'r')
+                            if line.strip() and not line.startswith('#')]
 
     def line2dict(self, line):
         server_name = re.search(r'''([A-Z]+[0-9]+)''', line, re.X)
@@ -45,6 +48,16 @@ if __name__ == '__main__':
         print('\nThe deployments are different!')
 
     print(f'{ckInt.filename:35} {ckProd.filename}')
-    for first, second in zip(ckInt.iterdicts(), ckProd.iterdicts()):
+
+    for server, modules in ckInt.servers.items():
+        print(server)
+        for module, version in modules.items():
+            print(f'{module:15}{version}')
+
+        print()
+    """
+     for first, second in zip(ckInt.iterdicts(), ckProd.iterdicts()):
 
         print(f'{str(first):35} {str(second)}')
+    """
+
