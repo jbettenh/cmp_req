@@ -1,3 +1,6 @@
+"""
+https://florian-dahlitz.de/articles/create-your-own-diff-tool-using-python
+"""
 import difflib
 import os
 import re
@@ -54,15 +57,15 @@ class ReqDicts(object):
                     for item in self.env1)
 
     def flatten_dict(self, env):
-        flat_list = []
+        flat_env = []
 
         for server, all_modules in env.items():
-            flat_list.append(server)
+            flat_env.append('\n')
+            flat_env.append(server)
             for module, version in all_modules.items():
-                flat_list.append(module)
-                flat_list.append(version)
-
-        flat_env = '\n'.join(flat_list)
+                flat_env .append(module)
+                flat_env .append(version)
+                flat_env.append('\n')
 
         return flat_env
 
@@ -70,7 +73,7 @@ class ReqDicts(object):
         output_file = 'diff.html'
         if output_file:
             delta = difflib.HtmlDiff().make_file(
-                self.env1_output, self.env2_output,
+                self.env1_output, self.env2_output, fromdesc=self.filename1, todesc=self.filename2
             )
             with open(output_file, "w") as f:
                 f.write(delta)
