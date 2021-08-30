@@ -5,7 +5,7 @@ group servers together
 """
 import difflib
 import sys
-from compare import ReqDicts
+from compare_versions import ReqDicts
 
 
 file1 = open('files_2_compare/int.txt').readlines()

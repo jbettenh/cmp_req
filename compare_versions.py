@@ -12,6 +12,9 @@ class ReqDicts(object):
         self.filename2 = os.path.basename(file2)
         self.env1 = self.file_2_dict(file1)
         self.env2 = self.file_2_dict(file2)
+        self.env1_output = self.flatten_dict(self.env1)
+        self.env2_output = self.flatten_dict(self.env2)
+        self.create_output()
 
     def __repr__(self):
         # doesn't work
@@ -50,15 +53,31 @@ class ReqDicts(object):
             return (item
                     for item in self.env1)
 
-    def flatten_dict(self):
-        self.env1 = [modules
-                     for server in self.env1.items()
-                     for modules, version in server
-                     if version[0]]
+    def flatten_dict(self, env):
+        flat_list = []
 
-        self.env2 = [modules
-                     for server in self.env2.items()
-                     for modules in server]
+        for server, all_modules in env.items():
+            flat_list.append(server)
+            for module, version in all_modules.items():
+                flat_list.append(module)
+                flat_list.append(version)
+
+        flat_env = '\n'.join(flat_list)
+
+        return flat_env
+
+    def create_output(self):
+        output_file = 'diff.html'
+        if output_file:
+            delta = difflib.HtmlDiff().make_file(
+                self.env1_output, self.env2_output,
+            )
+            with open(output_file, "w") as f:
+                f.write(delta)
+
+        else:
+            delta = difflib.ndiff(self.env1_output, self.env2_output)
+            sys.stdout.writelines(delta)
 
 
 if __name__ == '__main__':
@@ -67,5 +86,8 @@ if __name__ == '__main__':
 
     module_versions = ReqDicts(deploy_int, deploy_prod)
 
-    print(f'Environment 1 is {module_versions.env1}')
-    print(f'Environment 2 is {module_versions.env2}')
+    print(f'Environment 1 is {module_versions.env1_output}')
+    print(f'Environment 2 is {module_versions.env2_output}')
+
+
+
