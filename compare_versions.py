@@ -53,8 +53,8 @@ class ReqDicts(object):
     def flatten_dict(self):
         self.env1 = [modules
                      for server in self.env1.items()
-                     for modules, versions in server
-                     if versions[0]]
+                     for modules, version in server
+                     if version[0]]
 
         self.env2 = [modules
                      for server in self.env2.items()
@@ -65,7 +65,7 @@ if __name__ == '__main__':
     deploy_int = 'files_2_compare/int.txt'
     deploy_prod = 'files_2_compare/prod.txt'
 
-    check_deployment = ReqDicts(deploy_int, deploy_prod)
+    module_versions = ReqDicts(deploy_int, deploy_prod)
 
-    print(f'Environment 1 is {check_deployment.env1}')
-    print(f'Environment 2 is {check_deployment.env2}')
+    print(f'Environment 1 is {module_versions.env1}')
+    print(f'Environment 2 is {module_versions.env2}')
