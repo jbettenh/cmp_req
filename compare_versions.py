@@ -1,6 +1,3 @@
-"""
-https://florian-dahlitz.de/articles/create-your-own-diff-tool-using-python
-"""
 import difflib
 import os
 import re
@@ -67,9 +64,6 @@ if __name__ == '__main__':
     deploy_prod = 'files_2_compare/prod.txt'
 
     module_versions = ReqDicts(deploy_int, deploy_prod)
-
-    # print(f'Environment 1 is {module_versions.env1_output}')
-    # print(f'Environment 2 is {module_versions.env2_output}')
 
 
 
