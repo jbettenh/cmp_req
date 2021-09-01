@@ -59,10 +59,10 @@ class ReqDicts(object):
     def flatten_dict(self, env):
         flat_env = []
 
-        for server, all_modules in env.items():
+        for server, all_modules in sorted(env.items()):
             flat_env.append('\n')
             flat_env.append(server)
-            for module, version in all_modules.items():
+            for module, version in sorted(all_modules.items()):
                 flat_env .append(module)
                 flat_env .append(version)
                 flat_env.append('\n')
