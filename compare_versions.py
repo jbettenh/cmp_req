@@ -19,15 +19,6 @@ class ReqDicts(object):
         self.env2_output = self.flatten_dict(self.env2)
         self.create_output()
 
-    def __repr__(self):
-        # doesn't work
-        output = ''
-        for server, modules in self.env1.items():
-            output += server
-            for module, version in modules.items():
-                output += module
-        return output
-
     def file_2_dict(self, file):
         file_dict = {}
 
@@ -44,17 +35,6 @@ class ReqDicts(object):
                 file_dict[self.current_server][module_version.group(1)] = (module_version.group(2))
 
         return file_dict
-
-    def dicts(self, key=None):
-        return list(self.iterdicts(key=key))
-
-    def iter_dicts(self, key=None):
-        if key:
-            return (item
-                    for item in sorted(self.env1, key=key))
-        else:
-            return (item
-                    for item in self.env1)
 
     def flatten_dict(self, env):
         flat_env = []
