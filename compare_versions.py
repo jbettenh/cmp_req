@@ -15,6 +15,21 @@ class ReqDicts(object):
         self.env2_output = self.flatten_dict(self.env2)
         self.create_output()
 
+    def __repr__(self):
+        pretty_print = 'Environment 1 from file ' + str(self.filename1) + ' has the following deployed: \n'
+
+        for item in self.env1_output:
+            pretty_print = pretty_print + '\n'
+            pretty_print = pretty_print + ' ' + item
+
+        pretty_print = pretty_print + 'Environment 2 from file ' + str(self.filename2) + ' has the following deployed: \n'
+
+        for item in self.env2_output:
+            pretty_print = pretty_print + '\n'
+            pretty_print = pretty_print + ' ' + item
+
+        return pretty_print
+
     def file_2_dict(self, file):
         file_dict = {}
 
@@ -64,6 +79,7 @@ if __name__ == '__main__':
     deploy_prod = 'files_2_compare/prod.txt'
 
     module_versions = ReqDicts(deploy_int, deploy_prod)
+    print(module_versions)
 
 
 
