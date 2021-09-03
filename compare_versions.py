@@ -2,6 +2,7 @@ import difflib
 import os
 import re
 import sys
+from tabulate import tabulate
 
 
 class ReqDicts(object):
@@ -16,19 +17,29 @@ class ReqDicts(object):
         self.create_output()
 
     def __repr__(self):
-        pretty_print = 'Environment 1 from file ' + str(self.filename1) + ' has the following deployed: \n'
+        module_list = []
+        blank_line = ['', '']
 
-        for item in self.env1_output:
-            pretty_print = pretty_print + '\n'
-            pretty_print = pretty_print + ' ' + item
+        module_list.append([self.filename1, ''])
+        for server, all_modules in sorted(self.env1.items()):
+            module_list.append(blank_line)
+            module_list.append([server, '------'])
+            for module, version in sorted(all_modules.items()):
 
-        pretty_print = pretty_print + 'Environment 2 from file ' + str(self.filename2) + ' has the following deployed: \n'
+                module_list.append([module, version])
 
-        for item in self.env2_output:
-            pretty_print = pretty_print + '\n'
-            pretty_print = pretty_print + ' ' + item
+        module_list.append(blank_line)
+        module_list.append(blank_line)
+        module_list.append([self.filename2, ''])
+        for server, all_modules in sorted(self.env2.items()):
+            module_list.append(blank_line)
+            module_list.append([server, '------'])
+            for module, version in sorted(all_modules.items()):
+                module_list.append([module, version])
 
-        return pretty_print
+        table = tabulate(module_list, headers=['Module', 'Version'], tablefmt='orgtbl')
+
+        return table
 
     def file_2_dict(self, file):
         file_dict = {}
